@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 #平均波形を計算し、比べる
-#waveform_merge.py npy file biasvoltage npy file biasvoltage ....
+#waveform_merge.py npy file label_name npy file label_name....
 
 import numpy as np
 from glob import glob
@@ -43,7 +43,7 @@ args = sys.argv
 
 size = 2
 
-for data, voltage in (args[start:start + size] for start in range(1, len(args), size)):
+for data, label_name in (args[start:start + size] for start in range(1, len(args), size)):
     d = np.load(data)     #npy file を読み込んで、読み込まれた値を格納した配列(array)を返す
     time = d[0]             #読まれた配列の一行目が時間
     current = d[1:]         #二行目以降が電流 currentは行列　
@@ -53,7 +53,7 @@ for data, voltage in (args[start:start + size] for start in range(1, len(args), 
     average_current = np.mean(current,axis=0)
     print('Number of events: %s' %n)
     print('Number of bins: %s' % N)     #1event（一発の光子）で出る波形を何点とっているか
-    plt.plot(list(time),list(average_current * 50), linewidth=1,label=voltage)
+    plt.plot(list(time),list(average_current * 50), linewidth=1,label=label_name)
 
 
 plt.title('Average Wave Form of %s events' %n, fontsize=20)

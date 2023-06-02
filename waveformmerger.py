@@ -89,7 +89,7 @@ args = sys.argv
 
 size = 3
 
-for data, number, voltage in (args[start:start + size] for start in range(1, len(args), size)):
+for data, number, label_name in (args[start:start + size] for start in range(1, len(args), size)):
     config = data.replace('.Wfm.bin','.xml')
     tree = ET.parse(config) 
     root = tree.getroot() 
@@ -143,12 +143,13 @@ for data, number, voltage in (args[start:start + size] for start in range(1, len
 
     print('Number of events: %s' %n)
     print('Number of bins: %s' % N)     #1event（一発の光子）で出る波形を何点とっているか
-    plt.plot(list(time),list(average_current * 50), linewidth=1,label=voltage)
+    plt.plot(list(time),list(average_current * 50), linewidth=1,label=label_name)
 
 plt.title('Average Wave Form of %s events' %n, fontsize=20)
 plt.xlabel('Time(ns)', fontsize=20)
 plt.ylabel('Voltage(mV)', fontsize=20)
 plt.tick_params(labelsize=15)
+plt.legend()
 
 
 plt.show()
