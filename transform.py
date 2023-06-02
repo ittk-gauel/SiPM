@@ -5,10 +5,12 @@ import struct #binary dataを処理するためのモジュール
 import math
 import matplotlib.pyplot as plt
 
+
 def f2d(value):
     return struct.unpack('!f', bytes.fromhex(value))[0] #bites型のbinaryデータを元の型に戻す !fはfloat 16進数→2進数→float
 
-def transfer(s,k,j) :
+
+def transfer(s,k,j) : #sはbinary file
     i = 0
     v = []
     while i < j :
@@ -27,18 +29,7 @@ def transfer(s,k,j) :
         i += 1
     return v,k
  
-def base_line(t,v,tb1,tb2) :
-    i = j = 0
-    sum = 0
-    N = len(v)
-    while i < N :
-        if t[i] >= tb1 and t[i] <= tb2 : #測定日によって変動する危険あり
-            sum += v[i]
-            j += 1
-        i += 1
-        vb = sum/(j+1) #baseline計算しているところ？
-    return vb
- 
+
 def ampere(v,vb) :
     r = 50 #Ω
     i = 0
