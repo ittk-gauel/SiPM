@@ -41,7 +41,7 @@ d = np.load(data)     #npy file を読み込んで、読み込まれた値を格
 time = d[0]             #読まれた配列の一行目が時間
 current = d[1:]         #二行目以降が電流 currentは行列　
 R = 50                  #オシロスコープの抵抗
-n = int(len(current[0:,0]))
+n = int(len(current))
 N = int(len(time))
 average_current = np.mean(current,axis=0)
 
@@ -75,7 +75,7 @@ plt.tick_params(labelsize=15)
 
 
 
-save_path = data.replace('.npy','_av.png')
+save_path = data.replace('.npy','.png')
 plt.savefig(save_path, dpi=200, bbox_inches="tight", pad_inches=0.2)
 print('Output:', save_path)
 

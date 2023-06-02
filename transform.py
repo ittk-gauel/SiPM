@@ -30,19 +30,13 @@ def transfer(s,k,j) : #sはbinary file
     return v,k
  
 
-def ampere(v,vb) :
+def ampere(v) :
     r = 50 #Ω
     i = 0
     N = len(v)
     c = []
     for i in v :
-        '''
-        dv = (i-vb) #baseline引いているところ？
-        '''
         c.append(i/r) #mA
-        '''
-        i += 1
-        '''
     return c
 
 def calculate(s,t,N,signal_record_length,skip_data,tb1,tb2) :
@@ -51,8 +45,7 @@ def calculate(s,t,N,signal_record_length,skip_data,tb1,tb2) :
     I = []
     for n in range(N) :
         v,k = transfer(s,k,signal_record_length)
-        vb = base_line(t,v,tb1,tb2)
-        c = ampere(v,vb)
+        c = ampere(v)
         I.append(c)
         k += skip_data
         n += 1

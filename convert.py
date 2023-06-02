@@ -58,26 +58,6 @@ parser.add_argument(
 args = parser.parse_args()
 data = args.input_file #input_file
 
-# Setting
-F = 25
-alpha = 1
-density = 0
-plt.rcParams['font.family'] = 'Times New Roman' # font familyの設定
-plt.rcParams['mathtext.fontset'] = 'stix' # math fontの設定
-plt.rcParams['xtick.direction'] = 'in'
-plt.rcParams['ytick.direction'] = 'in'
-plt.rcParams["figure.figsize"] = (16,9)
-plt.rcParams["xtick.major.width"] = 1.2 
-plt.rcParams["ytick.major.width"] = 1.2 
-plt.rcParams["xtick.minor.width"] = 1.0             #x軸補助目盛り線の線幅
-plt.rcParams["ytick.minor.width"] = 1.0             #y軸補助目盛り線の線幅
-plt.rcParams["xtick.major.size"] = 20               #x軸主目盛り線の長さ
-plt.rcParams["ytick.major.size"] = 20               #y軸主目盛り線の長さ
-plt.rcParams["xtick.minor.size"] = 10               #x軸補助目盛り線の長さ
-plt.rcParams["ytick.minor.size"] = 10               #y軸補助目盛り線の長さ
-plt.rcParams['xtick.top'] = True                   #x軸の上部目盛り
-plt.rcParams['ytick.right'] = True                 #y軸の右部目盛り
-
 
 # Analysis Parameter
 config = data.replace('.Wfm.bin','.xml')
@@ -108,7 +88,7 @@ print('Record Time                   = %s ns' % round(record_time*10**9))
 print('-----------------------------------------')
 
 t = np.linspace(0,record_time,signal_record_length) #0~record_timeをsignal_record_length等分する
-x = t * 10**9
+x = t * 10**9 #ns
 t_max = np.max(x)
 t_min = np.min(x)
 
@@ -135,17 +115,3 @@ d.extend(cur)
 save_path = data.replace('.Wfm.bin', '') 
 np.save(save_path, d)
 print('Output:', (save_path+'.npy'))
-
-'''
-fig = plt.figure(figsize=(16,9))
-
-for i in c:
-    plt.plot(x,i)
-
-plt.xlim(np.min(x), np.max(x))
-plt.xlabel('Time [ns]',fontsize=F)
-plt.ylabel('Current [μA]',fontsize=F)
-plt.tick_params(labelsize=F)
-plt.grid(True)
-plt.show()
-'''
