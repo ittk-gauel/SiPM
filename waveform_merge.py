@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 #平均波形を計算し、比べる
-#waveform_merge.py filename biasvoltage filename biasvoltage ....
+#waveform_merge.py npy file biasvoltage npy file biasvoltage ....
 
 import numpy as np
 from glob import glob
