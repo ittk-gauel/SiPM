@@ -2,6 +2,7 @@
 # coding: utf-8
 # waveformmerger.py .Wfm.bin file number of events bias voltage...
 #Wfm.bin fileをnpy fileに変換せずに直接波形を出力する
+#.bin ファイルを手動で.xmlファイルに直すことなく使える
 #平均波形の計算
 
 import numpy as np
@@ -19,6 +20,8 @@ import matplotlib.colors
 from scipy.optimize import curve_fit
 import argparse
 import struct
+import pathlib
+import shutil
 warnings.simplefilter('ignore')
 
 
@@ -66,6 +69,23 @@ def calculate(s,N,signal_record_length,skip_data):
         n += 1
     return I #mA
 
+def change_suffix (file_name, from_suffix, to_suffix):
+    #ファイルの拡張子を得る
+    sf = pathlib.PurePath(file_name).suffix
+    
+    #変更対象かどうか判断
+    if sf == from_suffix:
+        #ファイル名（拡張子を除く）を得る
+        st = pathlib.PurePath(file_name).stem
+        
+        # 変更後のファイル名を得る
+        to_name = st + to_suffix
+        
+        abspath = pathlib.PurePath(file_name)
+        
+        # ファイル名を変更する
+        shutil.move(file_name, str(abspath.parent) + '/' + to_name)
+
 
 # Parameter
 plt.rcParams['font.family'] = 'Times New Roman' # font familyの設定
@@ -90,7 +110,9 @@ args = sys.argv
 size = 3
 
 for data, number, label_name in (args[start:start + size] for start in range(1, len(args), size)):
-    config = data.replace('.Wfm.bin','.xml')
+    binaryfile = data.replace('.Wfm.bin','.bin')
+    change_suffix(binaryfile, '.bin', '.xml')
+    config = data.replace('.Wfm.bin', '.xml')
     tree = ET.parse(config) 
     root = tree.getroot() 
 

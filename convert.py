@@ -16,8 +16,27 @@ import transform #binary analysis program → transform.py
 import xml.etree.ElementTree as ET
 import warnings
 import argparse
-from pathlib import Path
+import pathlib
+import shutil
 warnings.simplefilter('ignore')
+
+
+def change_suffix (file_name, from_suffix, to_suffix):
+    #ファイルの拡張子を得る
+    sf = pathlib.PurePath(file_name).suffix
+    
+    #変更対象かどうか判断
+    if sf == from_suffix:
+        #ファイル名（拡張子を除く）を得る
+        st = pathlib.PurePath(file_name).stem
+        
+        # 変更後のファイル名を得る
+        to_name = st + to_suffix
+        
+        abspath = pathlib.PurePath(file_name)
+        
+        # ファイル名を変更する
+        shutil.move(file_name, str(abspath.parent) + '/' + to_name)
 
 
 # Data Set
@@ -60,6 +79,8 @@ data = args.input_file #input_file
 
 
 # Analysis Parameter
+binaryfile = data.replace('.Wfm.bin','.bin')
+change_suffix(binaryfile, '.bin', '.xml')
 config = data.replace('.Wfm.bin','.xml')
 tree = ET.parse(config) #xmlデータの読み込み
 root = tree.getroot() #一番上の階層の要素を取り出す (Database)
